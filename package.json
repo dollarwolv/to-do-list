@@ -1,7 +1,7 @@
 {
-  "name": "webpack-template",
+  "name": "tic-tac-toe",
   "version": "1.0.0",
-  "description": "this is my template for projects using webpack with HTML, CSS and vannila JS.",
+  "description": "this is my tic-tac-toe.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dollarwolv/webpack-template.git"
+    "url": "git+https://github.com/dollarwolv/tic-tac-toe.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dollarwolv/webpack-template/issues"
+    "url": "https://github.com/dollarwolv/tic-tac-toe/issues"
   },
-  "homepage": "https://github.com/dollarwolv/webpack-template#readme",
+  "homepage": "https://github.com/dollarwolv/tic-tac-toe#readme",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "html-loader": "^5.1.0",
