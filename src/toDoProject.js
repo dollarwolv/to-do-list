@@ -1,8 +1,9 @@
 import toDoItem from "./toDoItem";
 
-class toDoManager {
-    constructor() {
-        this.items = []
+class toDoProject {
+    constructor(projectTitle) {
+        this.items = [];
+        this.projectTitle = projectTitle;
     }
 
     get finished() {
@@ -19,4 +20,4 @@ class toDoManager {
     }
 }
 
-export default toDoManager;
+export default toDoProject;
