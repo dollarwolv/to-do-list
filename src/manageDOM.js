@@ -35,6 +35,7 @@ class DOMManager{
         taskImagesContainerDiv.append(editContainer, calendarContainer);
         taskDiv.append(checkbox, taskTitleSpan, taskImagesContainerDiv);
         this.tasksListDiv.appendChild(taskDiv);
+        return taskDiv;
 
     }
 
@@ -80,8 +81,14 @@ class DOMManager{
         submit.type = "submit";
         submit.value = "Add Task";
 
+        // X button + event listener
+        const X = document.createElement("span");
+        X.textContent = "X";
+        X.classList.add("x");
+        X.addEventListener("click", () => this.killTaskAdder());
+
         form.appendChild(submit);
-        formDiv.appendChild(form);
+        formDiv.append(form, X);
         document.body.appendChild(formDiv);
         this.form = form;
     }
@@ -89,6 +96,26 @@ class DOMManager{
     killTaskAdder() {
         const formDiv = document.getElementsByClassName("form-div")[0];
         document.body.removeChild(formDiv);
+    }
+
+    showTaskInfo(task) {
+        const infoDiv = document.createElement("div");
+        infoDiv.classList.add("task-info");
+
+        const title = document.createElement("p");
+        title.textContent = `Title: ${task.title}`;
+
+        const description = document.createElement("p");
+        description.textContent = `Description: ${task.description}`;
+
+        const dueDate = document.createElement("p");
+        dueDate.textContent = `Due Date: ${task.dueDate}`;
+
+        const priority = document.createElement("p");
+        priority.textContent = `Priority: ${task.priority}`;
+
+        infoDiv.append(title, description, dueDate, priority);
+        document.body.appendChild(infoDiv);
     }
 }
 

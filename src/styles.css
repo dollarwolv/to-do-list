@@ -77,3 +77,13 @@
     border-radius: 8px;
     z-index: 1000;
 }
+
+.x {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+}
+
+#add-task-container, .x, .task {
+    cursor: pointer;
+}

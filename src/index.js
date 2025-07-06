@@ -7,6 +7,7 @@ class AppController {
         this.dom = new DOMManager();
         this.projects = [];
         this.init();
+        this.defaultProject = new toDoProject("default");
     }
 
     init() {
@@ -19,27 +20,29 @@ class AppController {
     }
 
     showForm() {
-        console.log("showing form!")
         this.dom.renderTaskAdder();
         this.dom.form.addEventListener("submit", (event) => {
             event.preventDefault();
 
-            // get form data
+            // get form data and add task
             const formData = new FormData(this.dom.form);
-
-            // TODO: replace with choosing which project to add to
-            const defaultProject = new toDoProject("default");
-            defaultProject.createToDo({
-                title: formData.get("title"),
-                description: formData.get("description"),
-                dueDate: formData.get("dueDate"),
-                priority: formData.get("priority")
-            })
-
-            let task = defaultProject.unfinished[0];
-            this.dom.renderTask(task);
+            this.addTask(formData);
             this.dom.killTaskAdder();
         });
+    }
+
+    addTask(formData) {
+
+        // TODO: replace with choosing which project to add to
+        this.defaultProject.createToDo({
+            title: formData.get("title"),
+            description: formData.get("description"),
+            dueDate: formData.get("dueDate"),
+            priority: formData.get("priority")
+        });
+        const task = this.defaultProject.unfinished.at(-1);
+        const taskDiv = this.dom.renderTask(task);
+        taskDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
     }
 }
 
