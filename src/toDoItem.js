@@ -5,6 +5,7 @@ class toDoItem {
         this.doneBool = false;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.id = crypto.getRandomValues(new Uint32Array(1))[0].toString(16);
 
         Object.assign(this, rest);
     }
