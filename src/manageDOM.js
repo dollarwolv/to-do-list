@@ -85,6 +85,11 @@ class DOMManager{
         document.body.appendChild(formDiv);
         this.form = form;
     }
+
+    killTaskAdder() {
+        const formDiv = document.getElementsByClassName("form-div")[0];
+        document.body.removeChild(formDiv);
+    }
 }
 
 export default DOMManager;

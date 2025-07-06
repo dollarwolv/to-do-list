@@ -2,37 +2,45 @@ import toDoProject from "./toDoProject";
 import "./styles.css";
 import DOMManager from "./manageDOM";
 
-const manager = new toDoProject("default");
-manager.createToDo({
-    title: "this is a amazing todo", 
-    description: "fuck this shit", 
-    dueDate : "07-11-2002", 
-    priority: "high"});
-console.log(manager.unfinished)
+class AppController {
+    constructor() {
+        this.dom = new DOMManager();
+        this.projects = [];
+        this.init();
+    }
 
-let firstTask = manager.unfinished[0];
-console.log(firstTask);
+    init() {
+        this.attachEventListeners();
+    }
 
-let projects = [];
+    attachEventListeners() {
+        const addTaskButton = document.getElementById("add-task-container");
+        addTaskButton.addEventListener("click", () => this.showForm());
+    }
 
-const dom = new DOMManager();
-dom.renderTask(firstTask);
-dom.renderTaskAdder();
-dom.form.addEventListener("submit", (event) => {
-    event.preventDefault();
+    showForm() {
+        console.log("showing form!")
+        this.dom.renderTaskAdder();
+        this.dom.form.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-    // get form data
-    const formData = new FormData(dom.form);
+            // get form data
+            const formData = new FormData(this.dom.form);
 
-    // TODO: replace with choosing which project to add to
-    const defaultProject = new toDoProject("default");
-    defaultProject.createToDo({
-        title: formData.get("title"),
-        description: formData.get("description"),
-        dueDate: formData.get("dueDate"),
-        priority: formData.get("priority")
-    })
+            // TODO: replace with choosing which project to add to
+            const defaultProject = new toDoProject("default");
+            defaultProject.createToDo({
+                title: formData.get("title"),
+                description: formData.get("description"),
+                dueDate: formData.get("dueDate"),
+                priority: formData.get("priority")
+            })
 
-    let task = defaultProject.unfinished[0];
-    dom.renderTask(task);
-})
+            let task = defaultProject.unfinished[0];
+            this.dom.renderTask(task);
+            this.dom.killTaskAdder();
+        });
+    }
+}
+
+new AppController();
