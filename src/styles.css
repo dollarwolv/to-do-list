@@ -45,6 +45,7 @@
     width: 100%;
     max-width: 800px;
     margin: 0px 24px;
+    position: relative;
 }
 
 .checkbox.checked {
@@ -64,4 +65,15 @@
     display: flex;
     gap: 4px;
     margin-left: auto;
+}
+
+.form-div {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #3a86ff;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
 }

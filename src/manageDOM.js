@@ -1,9 +1,11 @@
 import editImgSrc from "./img/edit.svg"
 import calendarImgSrc from "./img/calendar.svg"
 
+
 class DOMManager{
     constructor() {
         this.tasksListDiv = document.getElementById("tasks-list");
+        // this.actualToDoContainer = document.getElementById("actual-todo-container");
     }
     
     renderTask(task) {
@@ -44,6 +46,44 @@ class DOMManager{
         img.classList.add("task-image");
         taskImageContainerDiv.appendChild(img);
         return taskImageContainerDiv
+    }
+
+    renderTaskAdder() {
+        const formDiv = document.createElement("div");
+        formDiv.classList.add("form-div");
+        const form = document.createElement("form");
+        form.id = "task-form";
+
+        const fields = [
+            { label: "Title", type: "text", name: "title" },
+            { label: "Description", type: "text", name: "description" },
+            { label: "Due Date", type: "date", name: "dueDate" },
+            { label: "Priority", type: "text", name: "priority" }
+        ];
+
+        fields.forEach(field => {
+            const label = document.createElement("label");
+            label.textContent = field.label;
+            label.setAttribute("for", field.name);
+
+            const input = document.createElement("input");
+            input.type = field.type;
+            input.name = field.name;
+            input.id = field.name;
+
+            form.appendChild(label);
+            form.appendChild(input);
+            form.appendChild(document.createElement("br"));
+        });
+
+        const submit = document.createElement("input");
+        submit.type = "submit";
+        submit.value = "Add Task";
+
+        form.appendChild(submit);
+        formDiv.appendChild(form);
+        document.body.appendChild(formDiv);
+        this.form = form;
     }
 }
 
