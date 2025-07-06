@@ -1,4 +1,5 @@
 import toDoProject from "./toDoProject";
+import "./styles.css";
 
 const manager = new toDoProject("default");
 manager.createToDo({
