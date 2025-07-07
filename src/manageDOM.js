@@ -132,7 +132,10 @@ class DOMManager{
         const priority = document.createElement("p");
         priority.textContent = `Priority: ${task.priority}`;
 
-        infoDiv.append(title, description, dueDate, priority);
+        const project = document.createElement("p");
+        project.textContent = `Project: ${task.project}`;
+
+        infoDiv.append(title, description, dueDate, priority, project);
 
         const taskDiv = document.querySelector(`[data-task-id="${task.id}"]`);
 

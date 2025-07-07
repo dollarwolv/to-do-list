@@ -44,7 +44,8 @@ class AppController {
             title: formData.get("title"),
             description: formData.get("description"),
             dueDate: formData.get("dueDate"),
-            priority: formData.get("priority")
+            priority: formData.get("priority"),
+            project: project.projectTitle,
         });
 
         // TODO: make it so you can look up task via task ID
