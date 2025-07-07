@@ -2,12 +2,19 @@ import editImgSrc from "./img/edit.svg"
 import calendarImgSrc from "./img/calendar.svg"
 
 
+/**
+ * Class responsible for managing all DOM-related operations for tasks and projects.
+ */
 class DOMManager{
     constructor() {
         this.tasksListDiv = document.getElementById("tasks-list");
-        // this.actualToDoContainer = document.getElementById("actual-todo-container");
     }
     
+    /**
+     * Renders a task item into the DOM.
+     * @param {Object} task - The task object to render.
+     * @returns {HTMLElement} The created task DOM element.
+     */
     renderTask(task) {
 
         const taskDiv = document.createElement("div");
@@ -44,6 +51,11 @@ class DOMManager{
 
     }
 
+    /**
+     * Creates a div element containing an image used for task actions.
+     * @param {string} imgSrc - The source path of the image.
+     * @returns {HTMLElement} The container div with the image.
+     */
     createImgContainer(imgSrc) {
         const taskImageContainerDiv = document.createElement("div");
         taskImageContainerDiv.classList.add("task-image-container");
@@ -54,6 +66,10 @@ class DOMManager{
         return taskImageContainerDiv
     }
 
+    /**
+     * Renders a form that allows the user to add a new task.
+     * @param {Array} projects - List of existing projects to associate the task with.
+     */
     renderTaskAdder(projects) {
         const formDiv = document.createElement("div");
         formDiv.classList.add("form-div");
@@ -115,11 +131,19 @@ class DOMManager{
         this.taskForm = form;
     }
 
+    /**
+     * Removes the task adder form from the DOM.
+     */
     killTaskAdder() {
         const formDiv = document.getElementsByClassName("form-div")[0];
         document.body.removeChild(formDiv);
     }
 
+    /**
+     * Displays additional task information below the selected task.
+     * If already displayed, toggles it off.
+     * @param {Object} task - The task object whose information is shown.
+     */
     showTaskInfo(task) {
         // TODO: make it so you can look up task via task ID
         const infoDiv = document.createElement("div");
@@ -155,6 +179,9 @@ class DOMManager{
         taskDiv.parentNode.insertBefore(infoDiv, taskDiv.nextSibling);
     }
 
+    /**
+     * Renders a form that allows the user to add a new project.
+     */
     renderProjectAdder() {
         const formDiv = document.createElement("div");
         formDiv.classList.add("form-div");
@@ -190,12 +217,19 @@ class DOMManager{
         this.projectForm = form;
     }
 
+    /**
+     * Removes the project adder form from the DOM.
+     */
     // TODO: change this so it doesn't do the same thing that the other thing does
     killProjectAdder() {
         const formDiv = document.getElementsByClassName("form-div")[0];
         if (formDiv) document.body.removeChild(formDiv);
     }
 
+    /**
+     * Adds a new project element to the project list in the DOM.
+     * @param {string} title - Title of the project to add.
+     */
     addProjectToList(title) {
         const projectDiv = document.createElement("div");
         projectDiv.innerHTML = title;
@@ -203,6 +237,10 @@ class DOMManager{
         projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
     }
 
+    /**
+     * Renders the list of all projects, keeping the "Add Project" button last.
+     * @param {Array} projects - Array of project objects to render.
+     */
     renderProjectList(projects) {
         const projectsDiv = document.getElementById("projects-div");
 
