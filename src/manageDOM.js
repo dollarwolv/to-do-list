@@ -49,7 +49,7 @@ class DOMManager{
         return taskImageContainerDiv
     }
 
-    renderTaskAdder() {
+    renderTaskAdder(projects) {
         const formDiv = document.createElement("div");
         formDiv.classList.add("form-div");
         const form = document.createElement("form");
@@ -59,7 +59,7 @@ class DOMManager{
             { label: "Title", type: "text", name: "title" },
             { label: "Description", type: "text", name: "description" },
             { label: "Due Date", type: "date", name: "dueDate" },
-            { label: "Priority", type: "text", name: "priority" }
+            { label: "Priority", type: "text", name: "priority" },
         ];
 
         fields.forEach(field => {
@@ -76,6 +76,23 @@ class DOMManager{
             form.appendChild(input);
             form.appendChild(document.createElement("br"));
         });
+
+        const label = document.createElement("label");
+        label.textContent = "Choose a project:";
+        label.setAttribute("for", "projects");
+
+        const select = document.createElement("select");
+        select.name = "project";
+        select.id = "project";
+
+        projects.forEach(project => {
+            const option = document.createElement("option");
+            option.value = project.projectTitle;
+            option.textContent = project.projectTitle;
+            select.appendChild(option);
+        })
+
+        form.append(label, select, document.createElement("br"));
 
         const submit = document.createElement("input");
         submit.type = "submit";

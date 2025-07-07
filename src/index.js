@@ -26,7 +26,7 @@ class AppController {
     }
 
     handleTaskForm() {
-        this.dom.renderTaskAdder();
+        this.dom.renderTaskAdder(this.projects);
         this.dom.taskForm.addEventListener("submit", (event) => {
             event.preventDefault();
 
@@ -39,8 +39,8 @@ class AppController {
 
     addTask(formData) {
 
-        // TODO: replace with choosing which project to add to
-        this.defaultProject.createToDo({
+        const project = this.projects.find((element) => element.projectTitle === formData.get("project"));
+        project.createToDo({
             title: formData.get("title"),
             description: formData.get("description"),
             dueDate: formData.get("dueDate"),
