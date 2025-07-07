@@ -251,7 +251,7 @@ class DOMManager{
 
         projects.forEach(project => {
             const projectDiv = document.createElement("div");
-            projectDiv.innerHTML = project.projectTitle; d
+            projectDiv.innerHTML = project.projectTitle;
             projectDiv.classList.add("project");
             projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
         })
