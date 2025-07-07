@@ -116,7 +116,19 @@ class DOMManager{
         priority.textContent = `Priority: ${task.priority}`;
 
         infoDiv.append(title, description, dueDate, priority);
-        document.body.appendChild(infoDiv);
+
+        const taskDiv = document.querySelector(`[data-task-id="${task.id}"]`);
+
+        // Remove any previous infoDivs
+        const oldInfo = taskDiv.parentNode.querySelector(".task-info");
+        if (oldInfo) {
+            oldInfo.remove();
+            return;
+        }
+        
+
+        // Insert after the task
+        taskDiv.parentNode.insertBefore(infoDiv, taskDiv.nextSibling);
     }
 
     renderProjectAdder() {

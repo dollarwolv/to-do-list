@@ -67,6 +67,12 @@
     margin-left: auto;
 }
 
+.task-info {
+    position: absolute;
+    left: 24px;
+    background-color: blue;
+}
+
 .form-div {
     position: absolute;
     top: 10%;
