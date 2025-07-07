@@ -146,7 +146,6 @@ class DOMManager{
             return;
         }
         
-
         // Insert after the task
         taskDiv.parentNode.insertBefore(infoDiv, taskDiv.nextSibling);
     }
@@ -197,6 +196,24 @@ class DOMManager{
         projectDiv.innerHTML = title;
         const projectsDiv = document.getElementById("projects-div");
         projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
+    }
+
+    renderProjectList(projects) {
+        const projectsDiv = document.getElementById("projects-div");
+
+        // Keep removing the first child until only one remains
+        while (projectsDiv.children.length > 1) {
+        projectsDiv.removeChild(projectsDiv.firstElementChild);
+        }
+
+        projects.forEach(project => {
+            const projectDiv = document.createElement("div");
+            projectDiv.innerHTML = project.projectTitle; d
+            projectDiv.classList.add("project");
+            projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
+        })
+        projectsDiv.classList.toggle("show");
+        
     }
 }
 

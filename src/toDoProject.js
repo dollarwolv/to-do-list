@@ -17,6 +17,7 @@ class toDoProject {
     createToDo(attributes) {
         const toDo = new toDoItem(attributes);
         this.items.push(toDo);
+        return toDo;
     }
 }
 

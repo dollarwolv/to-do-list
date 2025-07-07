@@ -19,7 +19,7 @@ class AppController {
         addTaskButton.addEventListener("click", () => this.handleTaskForm());
 
         const showProjectsButton = document.getElementById("show-project-container");
-        showProjectsButton.addEventListener("click", () => document.getElementById("projects-div").classList.toggle("show"));
+        showProjectsButton.addEventListener("click", () => this.dom.renderProjectList(this.projects));
 
         const addProjectsButton = document.getElementById("add-project-container");
         addProjectsButton.addEventListener("click", () => this.handleProjectForm());
@@ -40,7 +40,7 @@ class AppController {
     addTask(formData) {
 
         const project = this.projects.find((element) => element.projectTitle === formData.get("project"));
-        project.createToDo({
+        const task = project.createToDo({
             title: formData.get("title"),
             description: formData.get("description"),
             dueDate: formData.get("dueDate"),
@@ -49,7 +49,6 @@ class AppController {
         });
 
         // TODO: make it so you can look up task via task ID
-        const task = this.defaultProject.unfinished.at(-1);
         const taskDiv = this.dom.renderTask(task);
         taskDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
     }
