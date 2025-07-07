@@ -90,7 +90,7 @@ class DOMManager{
         form.appendChild(submit);
         formDiv.append(form, X);
         document.body.appendChild(formDiv);
-        this.form = form;
+        this.taskForm = form;
     }
 
     killTaskAdder() {
@@ -99,6 +99,7 @@ class DOMManager{
     }
 
     showTaskInfo(task) {
+        // TODO: make it so you can look up task via task ID
         const infoDiv = document.createElement("div");
         infoDiv.classList.add("task-info");
 
@@ -116,6 +117,54 @@ class DOMManager{
 
         infoDiv.append(title, description, dueDate, priority);
         document.body.appendChild(infoDiv);
+    }
+
+    renderProjectAdder() {
+        const formDiv = document.createElement("div");
+        formDiv.classList.add("form-div");
+        const form = document.createElement("form");
+        form.id = "project-form";
+
+        const label = document.createElement("label");
+        label.textContent = "Project Name";
+        label.setAttribute("for", "projectName");
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "projectName";
+        input.id = "projectName";
+
+        const submit = document.createElement("input");
+        submit.type = "submit";
+        submit.value = "Add Project";
+
+        // X button + event listener
+        const X = document.createElement("span");
+        X.textContent = "X";
+        X.classList.add("x");
+        X.addEventListener("click", () => this.killProjectAdder());
+
+        form.appendChild(label);
+        form.appendChild(input);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(submit);
+
+        formDiv.append(form, X);
+        document.body.appendChild(formDiv);
+        this.projectForm = form;
+    }
+
+    // TODO: change this so it doesn't do the same thing that the other thing does
+    killProjectAdder() {
+        const formDiv = document.getElementsByClassName("form-div")[0];
+        if (formDiv) document.body.removeChild(formDiv);
+    }
+
+    addProjectToList(title) {
+        const projectDiv = document.createElement("div");
+        projectDiv.innerHTML = title;
+        const projectsDiv = document.getElementById("projects-div");
+        projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
     }
 }
 

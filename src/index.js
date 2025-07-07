@@ -4,10 +4,10 @@ import DOMManager from "./manageDOM";
 
 class AppController {
     constructor() {
-        this.dom = new DOMManager();
-        this.projects = [];
+        this.dom = new DOMManager()
         this.init();
         this.defaultProject = new toDoProject("default");
+        this.projects = [this.defaultProject];
     }
 
     init() {
@@ -16,16 +16,22 @@ class AppController {
 
     attachEventListeners() {
         const addTaskButton = document.getElementById("add-task-container");
-        addTaskButton.addEventListener("click", () => this.showForm());
+        addTaskButton.addEventListener("click", () => this.handleTaskForm());
+
+        const showProjectsButton = document.getElementById("show-project-container");
+        showProjectsButton.addEventListener("click", () => document.getElementById("projects-div").classList.toggle("show"));
+
+        const addProjectsButton = document.getElementById("add-project-container");
+        addProjectsButton.addEventListener("click", () => this.handleProjectForm());
     }
 
-    showForm() {
+    handleTaskForm() {
         this.dom.renderTaskAdder();
-        this.dom.form.addEventListener("submit", (event) => {
+        this.dom.taskForm.addEventListener("submit", (event) => {
             event.preventDefault();
 
             // get form data and add task
-            const formData = new FormData(this.dom.form);
+            const formData = new FormData(this.dom.taskForm);
             this.addTask(formData);
             this.dom.killTaskAdder();
         });
@@ -40,9 +46,31 @@ class AppController {
             dueDate: formData.get("dueDate"),
             priority: formData.get("priority")
         });
+
+        // TODO: make it so you can look up task via task ID
         const task = this.defaultProject.unfinished.at(-1);
         const taskDiv = this.dom.renderTask(task);
         taskDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
+    }
+
+    handleProjectForm() {
+        this.dom.renderProjectAdder();
+        this.dom.projectForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            // get form data and add task
+            const formData = new FormData(this.dom.projectForm);
+            this.addProject(formData);
+            this.dom.killProjectAdder();
+        });
+    }
+
+    addProject(formData) {
+        const project = new toDoProject(formData.get("projectName"));
+        this.projects.push(project);
+        this.dom.addProjectToList(formData.get("projectName"));
+
+        console.log(this.projects);
     }
 }
 
