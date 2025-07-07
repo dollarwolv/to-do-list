@@ -17,6 +17,11 @@ class DOMManager{
         // create checkbox
         const checkbox = document.createElement("span");
         checkbox.classList.add("checkbox");
+        checkbox.addEventListener("click", () => {
+            task.tickItem();
+            this.tasksListDiv.removeChild(taskDiv);
+            return;
+        });
 
         // create task title
         const taskTitleSpan = document.createElement("span");

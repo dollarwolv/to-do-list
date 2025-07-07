@@ -50,7 +50,8 @@ class AppController {
 
         // TODO: make it so you can look up task via task ID
         const taskDiv = this.dom.renderTask(task);
-        taskDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
+        const titleDiv = taskDiv.querySelector(".task-title");
+        titleDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
     }
 
     handleProjectForm() {
