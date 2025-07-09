@@ -8,6 +8,7 @@ import calendarImgSrc from "./img/calendar.svg"
 class DOMManager{
     constructor() {
         this.tasksListDiv = document.getElementById("tasks-list");
+        this.taskHeading = document.getElementById("tasks-header");
     }
     
     /**
@@ -16,6 +17,15 @@ class DOMManager{
      * @returns {HTMLElement} The created task DOM element.
      */
     renderTask(task) {
+
+        const quietMessages = [
+        "It's quiet in here... Add your first task!",
+        "It's quiet in here... Add your first task to this project!"
+        ];
+
+        if (quietMessages.includes(this.tasksListDiv.innerHTML)) {
+        this.tasksListDiv.innerHTML = "";
+        }
 
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task");
@@ -27,6 +37,9 @@ class DOMManager{
         checkbox.addEventListener("click", () => {
             task.tickItem();
             this.tasksListDiv.removeChild(taskDiv);
+            if (this.tasksListDiv.innerHTML = ""){
+                this.tasksListDiv.innerHTML === "It's quiet in here... Add your first task";
+            }
             return;
         });
 
@@ -156,7 +169,8 @@ class DOMManager{
         description.textContent = `Description: ${task.description}`;
 
         const dueDate = document.createElement("p");
-        dueDate.textContent = `Due Date: ${task.dueDate}`;
+        const localeString = task.dueDate.toLocaleDateString();
+        dueDate.textContent = `Due Date: ${localeString}`;
 
         const priority = document.createElement("p");
         priority.textContent = `Priority: ${task.priority}`;
@@ -237,6 +251,8 @@ class DOMManager{
         while (projectsDiv.children.length > 1) {
         projectsDiv.removeChild(projectsDiv.firstElementChild);
         }
+        projectsDiv.classList.toggle("show");
+
 
         projects.forEach(project => {
             const projectDiv = document.createElement("div");
@@ -246,7 +262,14 @@ class DOMManager{
             console.log("event listener added!")
             projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
         })
-        projectsDiv.classList.toggle("show");
+        
+
+        const allProjectsDiv = document.createElement("div");
+        allProjectsDiv.id = "all-project-container";
+        allProjectsDiv.classList.add("project");
+        allProjectsDiv.textContent = "Show All Tasks";
+        allProjectsDiv.addEventListener("click", () => this.showAllTasks(projects))
+        projectsDiv.insertBefore(allProjectsDiv, projectsDiv.lastElementChild);
         
     }
 
@@ -255,19 +278,60 @@ class DOMManager{
      * @param {Array} projects - Array of project objects to render.
      */
     showProjectTasks(project){
-        const heading = document.getElementById("tasks-header");
-        heading.textContent = project.projectTitle;
+        this.taskHeading.textContent = project.projectTitle;
         this.tasksListDiv.innerHTML = "";
         project.unfinished.forEach(task => {
             const taskDiv = this.renderTask(task);
             const titleDiv = taskDiv.querySelector(".task-title");
             titleDiv.addEventListener("click", () => this.showTaskInfo(task));
         });
+        if(this.tasksListDiv.innerHTML === ""){
+            this.tasksListDiv.innerHTML = "It's quiet in here... Add your first task to this project!";
+        }
     }
 
-    // showAllTasks(projectList){
+    /**
+     * Shows all tasks of all projects.
+     * @param {Array} projects - Array of project objects to render.
+     */
+    showAllTasks(projectList){
+        this.taskHeading.textContent = "All Tasks";
+        this.tasksListDiv.innerHTML = "";
+        projectList.forEach(project => {
+            project.unfinished.forEach(task => {
+                const taskDiv = this.renderTask(task);
+                const titleDiv = taskDiv.querySelector(".task-title");
+                titleDiv.addEventListener("click", () => this.showTaskInfo(task));
+            });
+        });
+        if(this.tasksListDiv.innerHTML === ""){
+            this.tasksListDiv.innerHTML = "It's quiet in here... Add your first task!";
+        }
+    }
 
-    // }
+    showTodaysTasks(projectList){
+        this.taskHeading.textContent = "Today's Tasks";
+        this.tasksListDiv.innerHTML = "";
+
+        const stripTime = (date) => {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            };
+        const todayDate = new Date();
+        const today = stripTime(todayDate);
+
+        projectList.forEach(project => {
+            project.unfinished.forEach(task => {
+                if(stripTime(task.dueDate) === today){
+                    const taskDiv = this.renderTask(task);
+                    const titleDiv = taskDiv.querySelector(".task-title");
+                    titleDiv.addEventListener("click", () => this.showTaskInfo(task));
+                }
+            });
+        });
+        if(this.tasksListDiv.innerHTML === ""){
+            this.tasksListDiv.innerHTML = "Nothing due today! 🙌";
+        }
+    }
 }
 
 export default DOMManager;

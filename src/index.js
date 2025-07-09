@@ -11,9 +11,9 @@ class AppController {
      */
     constructor() {
         this.dom = new DOMManager()
-        this.init();
-        this.defaultProject = new toDoProject("default");
+        this.defaultProject = new toDoProject("Home 🏠");
         this.projects = [this.defaultProject];
+        this.init();
     }
 
     /**
@@ -21,6 +21,7 @@ class AppController {
      */
     init() {
         this.attachEventListeners();
+        this.dom.showAllTasks(this.projects);
     }
 
     /**
@@ -35,6 +36,9 @@ class AppController {
 
         const addProjectsButton = document.getElementById("add-project-container");
         addProjectsButton.addEventListener("click", () => this.handleProjectForm());
+
+        const todayButton = document.getElementById("today-container");
+        todayButton.addEventListener("click", () => this.dom.showTodaysTasks(this.projects));
     }
 
     /**
@@ -57,15 +61,16 @@ class AppController {
      * @param {FormData} formData - The submitted task data.
      */
     addTask(formData) {
-
         const project = this.projects.find((element) => element.projectTitle === formData.get("project"));
         const task = project.createToDo({
             title: formData.get("title"),
             description: formData.get("description"),
-            dueDate: formData.get("dueDate"),
+            dueDate: new Date(formData.get("dueDate")),
             priority: formData.get("priority"),
             project: project.projectTitle,
         });
+
+        console.log(typeof task.dueDate);
 
         // TODO: make it so you can look up task via task ID
         const taskDiv = this.dom.renderTask(task);
@@ -95,8 +100,8 @@ class AppController {
     addProject(formData) {
         const project = new toDoProject(formData.get("projectName"));
         this.projects.push(project);
-
-        console.log(this.projects);
+        this.dom.renderProjectList(this.projects);
+        this.dom.showProjectTasks(project);
     }
 }
 
