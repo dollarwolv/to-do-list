@@ -21,7 +21,7 @@ class AppController {
      */
     init() {
         this.attachEventListeners();
-        this.dom.showAllTasks(this.projects);
+        this.dom.showProjectTasks(this.defaultProject);
     }
 
     /**
@@ -72,10 +72,12 @@ class AppController {
 
         console.log(typeof task.dueDate);
 
-        // TODO: make it so you can look up task via task ID
-        const taskDiv = this.dom.renderTask(task);
-        const titleDiv = taskDiv.querySelector(".task-title");
-        titleDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
+        // // TODO: make it so you can look up task via task ID
+        // const taskDiv = this.dom.renderTask(task);
+        // const titleDiv = taskDiv.querySelector(".task-title");
+        // titleDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
+
+        this.dom.showProjectTasks(project);
     }
 
     /**

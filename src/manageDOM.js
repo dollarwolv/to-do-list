@@ -108,7 +108,6 @@ class DOMManager{
 
             form.appendChild(label);
             form.appendChild(input);
-            form.appendChild(document.createElement("br"));
         });
 
         const label = document.createElement("label");
@@ -263,14 +262,14 @@ class DOMManager{
             projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
         })
         
-
-        const allProjectsDiv = document.createElement("div");
-        allProjectsDiv.id = "all-project-container";
-        allProjectsDiv.classList.add("project");
-        allProjectsDiv.textContent = "Show All Tasks";
-        allProjectsDiv.addEventListener("click", () => this.showAllTasks(projects))
-        projectsDiv.insertBefore(allProjectsDiv, projectsDiv.lastElementChild);
-        
+        if (projects.length > 1){
+             const allProjectsDiv = document.createElement("div");
+            allProjectsDiv.id = "all-project-container";
+            allProjectsDiv.classList.add("project");
+            allProjectsDiv.textContent = "Show All Tasks across projects";
+            allProjectsDiv.addEventListener("click", () => this.showAllTasks(projects))
+            projectsDiv.insertBefore(allProjectsDiv, projectsDiv.lastElementChild);
+        }
     }
 
     /**
