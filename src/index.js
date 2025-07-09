@@ -95,7 +95,6 @@ class AppController {
     addProject(formData) {
         const project = new toDoProject(formData.get("projectName"));
         this.projects.push(project);
-        this.dom.addProjectToList(formData.get("projectName"));
 
         console.log(this.projects);
     }

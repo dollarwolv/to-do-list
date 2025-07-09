@@ -227,18 +227,7 @@ class DOMManager{
     }
 
     /**
-     * Adds a new project element to the project list in the DOM.
-     * @param {string} title - Title of the project to add.
-     */
-    addProjectToList(title) {
-        const projectDiv = document.createElement("div");
-        projectDiv.innerHTML = title;
-        const projectsDiv = document.getElementById("projects-div");
-        projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
-    }
-
-    /**
-     * Renders the list of all projects, keeping the "Add Project" button last.
+     * Renders the list of all projects in the sidebar, keeping the "Add Project" button last.
      * @param {Array} projects - Array of project objects to render.
      */
     renderProjectList(projects) {
@@ -253,11 +242,32 @@ class DOMManager{
             const projectDiv = document.createElement("div");
             projectDiv.innerHTML = project.projectTitle;
             projectDiv.classList.add("project");
+            projectDiv.addEventListener("click", () => this.showProjectTasks(project));
+            console.log("event listener added!")
             projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
         })
         projectsDiv.classList.toggle("show");
         
     }
+
+    /**
+     * Shows all tasks related to a particular project.
+     * @param {Array} projects - Array of project objects to render.
+     */
+    showProjectTasks(project){
+        const heading = document.getElementById("tasks-header");
+        heading.textContent = project.projectTitle;
+        this.tasksListDiv.innerHTML = "";
+        project.unfinished.forEach(task => {
+            const taskDiv = this.renderTask(task);
+            const titleDiv = taskDiv.querySelector(".task-title");
+            titleDiv.addEventListener("click", () => this.showTaskInfo(task));
+        });
+    }
+
+    // showAllTasks(projectList){
+
+    // }
 }
 
 export default DOMManager;
