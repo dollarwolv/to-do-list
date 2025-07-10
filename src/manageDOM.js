@@ -24,7 +24,7 @@ class DOMManager{
         ];
 
         if (quietMessages.includes(this.tasksListDiv.innerHTML)) {
-        this.tasksListDiv.innerHTML = "";
+            this.tasksListDiv.innerHTML = "";
         }
 
         const taskDiv = document.createElement("div");
