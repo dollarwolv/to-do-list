@@ -10,9 +10,9 @@ class AppController {
      * Initializes the AppController by setting up DOM manager, default project, and attaching event listeners.
      */
     constructor() {
-        this.dom = new DOMManager()
         this.defaultProject = new toDoProject("Home 🏠");
         this.projects = [this.defaultProject];
+        this.dom = new DOMManager(() => this.saveProjects());
         this.init();
     }
 
@@ -21,7 +21,8 @@ class AppController {
      */
     init() {
         this.attachEventListeners();
-        this.dom.showProjectTasks(this.defaultProject);
+        this.loadProjects();
+        this.dom.showProjectTasks(this.projects[0]);
     }
 
     /**
@@ -70,14 +71,13 @@ class AppController {
             project: project.projectTitle,
         });
 
-        console.log(typeof task.dueDate);
-
         // // TODO: make it so you can look up task via task ID
         // const taskDiv = this.dom.renderTask(task);
         // const titleDiv = taskDiv.querySelector(".task-title");
         // titleDiv.addEventListener("click", () => this.dom.showTaskInfo(task));
 
         this.dom.showProjectTasks(project);
+        this.saveProjects();
     }
 
     /**
@@ -104,6 +104,31 @@ class AppController {
         this.projects.push(project);
         this.dom.renderProjectList(this.projects);
         this.dom.showProjectTasks(project);
+    }
+
+    saveProjects() {
+        localStorage.tasks = JSON.stringify(this.projects);
+    }
+    
+    loadProjects(){
+        const stored = localStorage.tasks;
+        if(!stored) return;
+
+        const rawProjects = JSON.parse(stored);
+        this.projects = rawProjects.map(raw => {
+            const project = new toDoProject(raw.projectTitle);
+            raw.items.forEach(item => {
+                project.createToDo({
+                    title: item.title,
+                    description: item.description,
+                    dueDate: new Date(item.dueDate),
+                    doneBool: item.doneBool,
+                    priority: item.priority,
+                    project: raw.projectTitle,
+                });
+            });
+            return project;
+        });
     }
 }
 

@@ -6,9 +6,10 @@ import calendarImgSrc from "./img/calendar.svg"
  * Class responsible for managing all DOM-related operations for tasks and projects.
  */
 class DOMManager{
-    constructor() {
+    constructor(saveFunction) {
         this.tasksListDiv = document.getElementById("tasks-list");
         this.taskHeading = document.getElementById("tasks-header");
+        this.saveFunction = saveFunction
     }
     
     /**
@@ -37,9 +38,10 @@ class DOMManager{
         checkbox.addEventListener("click", () => {
             task.tickItem();
             this.tasksListDiv.removeChild(taskDiv);
-            if (this.tasksListDiv.innerHTML = ""){
-                this.tasksListDiv.innerHTML === "It's quiet in here... Add your first task";
+            if (this.tasksListDiv.innerHTML === ""){
+                this.tasksListDiv.innerHTML = "It's quiet in here... Add your first task!";
             }
+            this.saveFunction();
             return;
         });
 
@@ -84,6 +86,14 @@ class DOMManager{
      * @param {Array} projects - List of existing projects to associate the task with.
      */
     renderTaskAdder(projects) {
+
+        // Remove any previous infoDivs
+        const oldForm = document.body.querySelector(".form-div");
+        if (oldForm) {
+            oldForm.remove();
+            return;
+        }
+        
         const formDiv = document.createElement("div");
         formDiv.classList.add("form-div");
         const form = document.createElement("form");
@@ -258,7 +268,6 @@ class DOMManager{
             projectDiv.innerHTML = project.projectTitle;
             projectDiv.classList.add("project");
             projectDiv.addEventListener("click", () => this.showProjectTasks(project));
-            console.log("event listener added!")
             projectsDiv.insertBefore(projectDiv, projectsDiv.lastElementChild);
         })
         
@@ -320,7 +329,7 @@ class DOMManager{
 
         projectList.forEach(project => {
             project.unfinished.forEach(task => {
-                if(stripTime(task.dueDate) === today){
+                if(stripTime(task.dueDate).getTime() === today.getTime()){
                     const taskDiv = this.renderTask(task);
                     const titleDiv = taskDiv.querySelector(".task-title");
                     titleDiv.addEventListener("click", () => this.showTaskInfo(task));
