@@ -49,9 +49,13 @@ class DOMManager{
         const taskTitleSpan = document.createElement("span");
         taskTitleSpan.classList.add("task-title");
         taskTitleSpan.textContent = task.title;
-        taskTitleSpan.contentEditable = true;
+        taskTitleSpan.addEventListener("dblclick", () => {
+            taskTitleSpan.contentEditable = true;
+            taskTitleSpan.focus();
+        })
         taskTitleSpan.addEventListener("blur", () => {
             task.title = taskTitleSpan.textContent;
+            taskTitleSpan.contentEditable = false;
             this.saveFunction();
             });
 
@@ -186,7 +190,7 @@ class DOMManager{
 
         const localeString = task.dueDate.toLocaleDateString();
         const dueDate = document.createElement("p");
-        if (localeString != "1/1/1970"){
+        if (localeString != "1/1/1970" || localeString != "Invalid Date"){
             dueDate.textContent = localeString;
         }
 
