@@ -49,6 +49,11 @@ class DOMManager{
         const taskTitleSpan = document.createElement("span");
         taskTitleSpan.classList.add("task-title");
         taskTitleSpan.textContent = task.title;
+        taskTitleSpan.contentEditable = true;
+        taskTitleSpan.addEventListener("blur", () => {
+            task.title = taskTitleSpan.textContent;
+            this.saveFunction();
+            });
 
         // create images container
         const taskImagesContainerDiv = document.createElement("div");
@@ -171,23 +176,28 @@ class DOMManager{
         const infoDiv = document.createElement("div");
         infoDiv.classList.add("task-info");
 
-        const title = document.createElement("p");
-        title.textContent = `Title: ${task.title}`;
-
         const description = document.createElement("p");
-        description.textContent = `Description: ${task.description}`;
+        description.textContent = task.description;
+        description.contentEditable = true;
+        description.addEventListener("blur", () => {
+            task.description = description.textContent;
+            this.saveFunction();
+            });
 
-        const dueDate = document.createElement("p");
         const localeString = task.dueDate.toLocaleDateString();
-        dueDate.textContent = `Due Date: ${localeString}`;
+        const dueDate = document.createElement("p");
+        if (localeString != "1/1/1970"){
+            dueDate.textContent = localeString;
+        }
 
+        
         const priority = document.createElement("p");
-        priority.textContent = `Priority: ${task.priority}`;
+        priority.textContent = task.priority;
 
         const project = document.createElement("p");
         project.textContent = `Project: ${task.project}`;
 
-        infoDiv.append(title, description, dueDate, priority, project);
+        infoDiv.append(description, dueDate, priority, project);
 
         const taskDiv = document.querySelector(`[data-task-id="${task.id}"]`);
 
